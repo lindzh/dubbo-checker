@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:service
+		interface="com.linda.voucher.biz.api.gif.service.GiftBagRemoteService"
+		ref="giftBagRemoteService" version="1.0.0${dubbo.version.suffix}" />
+
+	<dubbo:service
+		interface="com.linda.voucher.biz.api.gif.service.ApplyVoucherRemoteService"
+		ref="applyVoucherRemoteService" version="1.0.0${dubbo.version.suffix}" />
+
+	<dubbo:service interface="com.linda.voucher.biz.api.gif.service.BlockedRemoteService"
+		ref="blockedRemoteService" version="1.0.0${dubbo.version.suffix}" />
+
+</beans>
