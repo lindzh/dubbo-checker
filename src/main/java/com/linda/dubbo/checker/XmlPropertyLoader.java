@@ -2,7 +2,9 @@ package com.linda.dubbo.checker;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -20,11 +22,11 @@ public class XmlPropertyLoader {
 	private static Logger logger = Logger.getLogger(XmlPropertyLoader.class);
 	
 	@SuppressWarnings("resource")
-	public static Properties loadXML(final String file,final String replaceVersionKey,final String replaceVersionValue){
+	public static Properties loadXML(final String file,final Map<String,String> replaceKeyValueMap){
 		try{
 			XMLReader reader = XMLReaderFactory.createXMLReader();
 			FileInputStream fis = new FileInputStream(new File(file));
-			logger.info("loaded xml:"+file+" replace:"+replaceVersionKey+" replaceVersion:"+replaceVersionValue);
+			logger.info("loaded xml:"+file+" content:"+replaceKeyValueMap);
 			InputSource inputSource = new InputSource(fis);
 			final Properties properties = new Properties();
 			reader.setContentHandler(new ContentHandler() {
@@ -44,11 +46,16 @@ public class XmlPropertyLoader {
 								version = atts.getValue(versionIndex);
 							}
 							if(service!=null&&version!=null){
-								if(replaceVersionKey!=null){
-									if(replaceVersionValue!=null){
-										version = version.replace(replaceVersionKey, replaceVersionValue);
-									}else{
-										version = version.replace(replaceVersionKey, "");
+								//逐个替换
+								Set<String> keys = replaceKeyValueMap.keySet();
+								for(String replaceVersionKey:keys){
+									String replaceVersionValue = replaceKeyValueMap.get(replaceVersionKey);
+									if(replaceVersionKey!=null){
+										if(replaceVersionValue!=null){
+											version = version.replace(replaceVersionKey, replaceVersionValue);
+										}else{
+											version = version.replace(replaceVersionKey, "");
+										}
 									}
 								}
 								properties.put(service, version);
@@ -111,10 +118,4 @@ public class XmlPropertyLoader {
 		return null;
 	}
 	
-	public static void main(String[] args) {
-		String file = "D:/vbiz-dubbo-provider.xml";
-		Properties properties = XmlPropertyLoader.loadXML(file,"${dubbo.version.suffix}","_stable");
-		logger.info("result:"+JSONUtils.toJSON(properties));
-	}
-
 }

@@ -1,5 +1,7 @@
 package com.linda.dubbo.checker;
 
+import java.util.HashMap;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -69,8 +71,14 @@ public class CheckerCommandMain extends AbstractCheckerMain{
 		if(commandLine.hasOption("rv")){
 			replaceValue = commandLine.getOptionValue("rv");
 		}
+		
+		HashMap<String, String> replaceKeyValueMap = new HashMap<String,String>();
+		if(replaceKey!=null&&replaceKey.length()>0){
+			replaceKeyValueMap.put(replaceKey, replaceValue);
+		}
+		
 		boolean check = CheckerCommandMain.checkOptions(zkConnectString, mode, filename,diff, host, port, help);
-		AbstractCheckerMain.executeCheck(check, filename, replaceKey, replaceValue, host, port, diff, mode, zkConnectString);
+		AbstractCheckerMain.executeCheck(check, filename, replaceKeyValueMap, host, port, diff, mode, zkConnectString);
 		System.exit(0);
 	}
 

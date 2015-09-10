@@ -1,6 +1,7 @@
 package com.linda.dubbo.checker;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 public class AbstractCheckerMain {
@@ -35,12 +36,12 @@ public class AbstractCheckerMain {
 		System.out.println("-help pring help string");
 	}
 	
-	public static void executeCheck(boolean check,String filename,String replaceKey,String replaceValue,String host,int port,long diff,String mode,String zkConnectString){
+	public static void executeCheck(boolean check,String filename,Map<String,String> replaceKeyValues,String host,int port,long diff,String mode,String zkConnectString){
 		if(check){
 			Properties properties = null;
 			//xml dubbo配置文件
 			if(filename.endsWith(".xml")){
-				properties = XmlPropertyLoader.loadXML(filename, replaceKey, replaceValue);
+				properties = XmlPropertyLoader.loadXML(filename, replaceKeyValues);
 			}else{
 				properties = SensorUtils.loadProperties(filename);
 			}
