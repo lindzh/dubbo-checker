@@ -6,8 +6,8 @@
 
 
 ###使用？
+```java
 java -jar dubbo-checker-0.2.1.jar com.linda.dubbo.checker.CheckerCommandMain [options]
-
 options命令说明：
 -help打印帮助
 -zk 192.168.139.129:2181 指定dubbo 注册中心地址 必须输入
@@ -18,11 +18,13 @@ options命令说明：
 -m n 指定检测模式 n 仅检测该配置文件中的服务有无部署，忽略host，port以及time diff
 -m t 指定检测模式 t 通过host，port，time时间差检测
 -m s 指定检测模式s，检测本机有无部署该服务，如果指定时间差t，则会检测部署时间是否在正常范围
- 
+```
 说明：dubbo服务及列表请按照 lin.properties中格式，文件名称在命令行中指定
-
+----
 举例:
+```java
 使用xml配合config.properties配置文件的方式
 java -jar dubbo-checker-0.2.1.jar com.linda.dubbo.checker.CheckerFileMain -file config.properties
 使用命令行方式检测
 java -jar dubbo-checker-0.2.1.jar com.linda.dubbo.checker.CheckerCommandMain -zk 192.168.139.129:2181 -m t -t 3600 -f dubbo.properties
+```
